@@ -22,14 +22,18 @@ const ConverterShell: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        const debouncer = setTimeout(() => {
+            try {
+                const result = convertData(inputContent, inputFormat, outputFormat);
+                setOutputContent(result);
+                setError(null);
+            } catch (err: any) {
+                setError(err.message);
+            }
+        }, 500);
 
-        try {
-            const result = convertData(inputContent, inputFormat, outputFormat);
-            setOutputContent(result);
-            setError(null);
-        } catch (err: any) {
-            setError(err.message);
-        }
+        return () => clearTimeout(debouncer);
+
     }, [inputContent, inputFormat, outputFormat]);
 
     return (
