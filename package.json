@@ -9,12 +9,18 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "@monaco-editor/react": "^4.7.0",
+    "fast-xml-parser": "^5.3.2",
+    "js-yaml": "^4.1.1",
     "next": "16.0.8",
     "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "react-dom": "19.2.1",
+    "smol-toml": "^1.5.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
