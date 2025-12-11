@@ -1,10 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import CodeEditor from './CodeEditor';
-import { convertData, Format } from '../lib/converters';
+import CodeEditor from '../editor/CodeEditor';
+import { convertData, Format } from '../../lib/converters';
+import Header from '../ui/Header';
+import FormatSelector from '../FormatSelector';
 
-const formats: Format[] = ['JSON', 'YAML', 'XML', 'TOML'];
+
+const formats = ['JSON', 'YAML', 'XML', 'TOML'] as Format[];
 
 const languageMap: Record<Format, string> = {
     JSON: 'json',
@@ -38,39 +41,24 @@ const ConverterShell: React.FC = () => {
 
     return (
         <div className="flex flex-col h-screen bg-gray-900 text-white font-sans p-4 gap-4">
-            <header className="flex items-center justify-between pb-4 border-b border-gray-800">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                    DataMorph
-                </h1>
-                <div className="text-sm text-gray-400">
-                    Data Serialization Converter
-                </div>
-            </header>
+
+            <Header />
 
             <div className="flex flex-wrap gap-4 items-center justify-between bg-gray-800 p-3 rounded-lg">
-                <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-gray-300">Input:</label>
-                    <select
-                        value={inputFormat}
-                        onChange={(e) => setInputFormat(e.target.value as Format)}
-                        className="bg-gray-700 text-white rounded px-3 py-1 border border-gray-600 focus:outline-none focus:border-blue-500"
-                    >
-                        {formats.map(f => <option key={f} value={f}>{f}</option>)}
-                    </select>
-                </div>
 
-                <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-gray-300">Output:</label>
-                    <select
-                        value={outputFormat}
-                        onChange={(e) => setOutputFormat(e.target.value as Format)}
-                        className="bg-gray-700 text-white rounded px-3 py-1 border border-gray-600 focus:outline-none focus:border-blue-500"
-                    >
-                        {formats.map(f => <option key={f} value={f}>{f}</option>)}
-                    </select>
-                </div>
+                <FormatSelector
+                    value={inputFormat}
+                    onChange={setInputFormat}
+                    formats={formats}
+                />
+
+                <FormatSelector
+                    value={outputFormat}
+                    onChange={setOutputFormat}
+                    formats={formats}
+                />
+
             </div>
-
 
             <div className="flex flex-1 gap-4 min-h-0">
                 <div className="flex flex-col flex-1 gap-2 min-w-0">
