@@ -61,7 +61,7 @@ export default function Validator() {
 
 
     return (
-        <div className="flex flex-col min-h-[calc(100vh-8rem)] text-white font-sans gap-6 max-w-7xl mx-auto pb-8">
+        <div className="flex flex-col h-[calc(100vh-8rem)] text-white font-sans gap-6 max-w-7xl mx-auto">
 
             <div className="flex flex-wrap gap-4 items-center justify-between bg-gray-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl shadow-xl">
                 <FormatSelector
