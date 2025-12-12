@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import CodeEditor from '../editor/CodeEditor';
 import { convertData, Format } from '../../lib/converters';
-import Header from '../ui/Header';
 import FormatSelector from '../FormatSelector';
 
 
@@ -40,11 +39,9 @@ const ConverterShell: React.FC = () => {
     }, [inputContent, inputFormat, outputFormat]);
 
     return (
-        <div className="flex flex-col h-screen bg-gray-900 text-white font-sans p-4 gap-4">
+        <div className="flex flex-col h-[calc(100vh-8rem)] text-white font-sans gap-6 max-w-7xl mx-auto">
 
-            <Header />
-
-            <div className="flex flex-wrap gap-4 items-center justify-between bg-gray-800 p-3 rounded-lg">
+            <div className="flex flex-wrap gap-4 items-center justify-between bg-gray-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl shadow-xl">
 
                 <FormatSelector
                     value={inputFormat}

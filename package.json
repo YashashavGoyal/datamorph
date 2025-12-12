@@ -1,6 +1,7 @@
 {
   "name": "datamorph",
-  "version": "0.1.0",
+  "version": "2.1.0",
+  "author": "Yashashav Goyal",
   "private": true,
   "scripts": {
     "dev": "next dev",
