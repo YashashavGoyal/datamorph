@@ -18,22 +18,32 @@ DataMorph is a privacy-focused developer tool for converting and validating data
 DataMorph uses a **Client-Side Architecture**. It downloads the necessary code once and then processes everything locally on your computer.
 
 ```mermaid
-graph TD
-    User[User Browser]
-    CDN[Vercel Edge Network]
+flowchart TD
+    %% Nodes
+    User([👤 User])
+    CDN[("☁️ Vercel CDN")]
     
-    subgraph Client_Side_Runtime
-        Shell[App Shell]
-        Editor[Monaco Editor]
-        Engine[Conversion Engine]
+    subgraph Client ["💻 Client-Side Runtime"]
+        direction TB
+        Shell["🛡️ App Shell"]
+        Editor["📝 Monaco Editor"]
+        Engine["⚙️ Conversion Engine"]
     end
-    
-    CDN -->|Delivers App| User
-    User -->|Types Code| Editor
-    Editor -->|Sends Data| Engine
-    Engine -->|Returns Data| Editor
-    
-    style Engine fill:#f9f,stroke:#333,stroke-width:2px
+
+    %% Edges
+    CDN -.->|1. Delivers Assets| Shell
+    User ==>|2. Types Code| Editor
+    Editor <==>|3. Real-time JSON/YAML/XML| Engine
+
+    %% Styling
+    classDef plain fill:#1a1a1a,stroke:#fff,color:#fff;
+    classDef highlight fill:#22226e,stroke:#f2f0f0,stroke-width:2px,color:#fff;
+    classDef secondary fill:#2d2d2d,stroke:#666,color:#eee;
+
+    class User,CDN plain;
+    class Shell,Editor secondary;
+    class Engine highlight;
+    style Client fill:transparent,stroke:#333,color:#ccc,stroke-dasharray: 5 5
 ```
 
 ## Features
