@@ -39,7 +39,7 @@ const ConverterShell: React.FC = () => {
     }, [inputContent, inputFormat, outputFormat]);
 
     return (
-        <div className="flex flex-col h-[calc(100vh-8rem)] text-white font-sans gap-6 max-w-7xl mx-auto">
+        <div className="flex flex-col h-[calc(100vh-8rem)] md:h-[calc(100vh-8rem)] text-white font-sans gap-6 max-w-7xl mx-auto">
 
             <div className="flex flex-wrap gap-4 items-center justify-between bg-gray-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl shadow-xl">
 
@@ -57,7 +57,7 @@ const ConverterShell: React.FC = () => {
 
             </div>
 
-            <div className="flex flex-1 gap-4 min-h-0">
+            <div className="flex flex-col md:flex-row flex-1 gap-4 min-h-0">
                 <div className="flex flex-col flex-1 gap-2 min-w-0">
                     <div className="text-sm font-semibold text-gray-400">Input ({inputFormat})</div>
                     <CodeEditor
