@@ -18,6 +18,7 @@ export default function Navbar() {
 
                 <div className="hidden md:flex items-center gap-8">
                     <NavLink href="/">Home</NavLink>
+                    <NavLink href="/docs">Docs</NavLink>
                     <NavLink href="/convert">Converter</NavLink>
                     <NavLink href="/validate">Validator</NavLink>
                 </div>
@@ -56,6 +57,7 @@ export default function Navbar() {
             <div className={`fixed inset-0 bg-black/0 transition-transform duration-300 md:hidden pt-24 px-6 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className="flex flex-col gap-6 text-lg bg-black backdrop-blur-sm p-6 rounded-2xl">
                     <MobileNavLink href="/" onClick={() => setIsOpen(false)}>Home</MobileNavLink>
+                    <MobileNavLink href="/docs" onClick={() => setIsOpen(false)}>Docs</MobileNavLink>
                     <MobileNavLink href="/convert" onClick={() => setIsOpen(false)}>Converter</MobileNavLink>
                     <MobileNavLink href="/validate" onClick={() => setIsOpen(false)}>Validator</MobileNavLink>
                     <a
