@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import CodeEditor from "../editor/CodeEditor";
 import { convertData, Format } from "../../lib/converters";
 import FormatSelector from "../FormatSelector";
@@ -25,8 +25,8 @@ export default function Validator() {
                 setInputContent(formatted);
             }
             return true;
-        } catch (err: any) {
-            setValidationError(err.message);
+        } catch (err: unknown) {
+            setValidationError(err instanceof Error ? err.message : String(err));
             return false;
         }
     }
@@ -48,15 +48,16 @@ export default function Validator() {
     const prevFormat = usePrevious<Format>(inputFormat);
 
     useEffect(() => {
-        if (prevFormat !== null) {
+        if (!prevFormat) return;
+
+        setInputContent(prev => {
             try {
-                const result = convertData(inputContent, prevFormat, inputFormat);
-                setInputContent(result);
-            } catch (error) {
-                setInputContent(inputContent)
+                return convertData(prev, prevFormat, inputFormat);
+            } catch {
+                return prev;
             }
-        }
-    }, [inputFormat]);
+        });
+    }, [inputFormat, prevFormat]);
 
 
 

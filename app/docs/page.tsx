@@ -25,7 +25,7 @@ export default function DocsPage() {
                     <div className="border-l-4 border-blue-500 pl-4 md:pl-6">
                         <h2 className="text-2xl md:text-3xl font-bold mb-4">What is Data Serialization?</h2>
                         <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-                            Data serialization is the process of converting complex data structures—like objects, arrays, and lists in memory—into a format that can be easily stored or transmitted. Think of it as "packaging" your data so it can be sent over a network (like a JSON API response) or saved to a file (like a config file) and then reconstructed ("deserialized") later.
+                            {`Data serialization is the process of converting complex data structures—like objects, arrays, and lists in memory—into a format that can be easily stored or transmitted. Think of it as "packaging" your data so it can be sent over a network (like a JSON API response) or saved to a file (like a config file) and then reconstructed ("deserialized") later.`}
                         </p>
                     </div>
 
@@ -56,15 +56,15 @@ export default function DocsPage() {
                                 </li>
                                 <li className="flex gap-2">
                                     <span className="text-pink-500">YAML</span>
-                                    <span>(YAML Ain't Markup Language) - Clean, no brackets. Great for configs.</span>
+                                    <span>{`(YAML Ain't Markup Language) - Clean, no brackets. Great for configs.`}</span>
                                 </li>
                                 <li className="flex gap-2">
                                     <span className="text-pink-500">XML</span>
-                                    <span>(Extensible Markup Language) - Verbose but powerful, used in enterprise.</span>
+                                    <span>{`(Extensible Markup Language) - Verbose but powerful, used in enterprise.`}</span>
                                 </li>
                                 <li className="flex gap-2">
                                     <span className="text-pink-500">TOML</span>
-                                    <span>(Tom's Obvious, Minimal Language) - Explicit and easy for configs.</span>
+                                    <span>{`(Tom's Obvious, Minimal Language) - Explicit and easy for configs.`}</span>
                                 </li>
                             </ul>
                         </div>
