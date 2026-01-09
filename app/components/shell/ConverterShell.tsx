@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import CodeEditor from '../editor/CodeEditor';
-import { convertData, Format } from '../../lib/converters';
+import { convertData, Format, initialText } from '../../lib/converters';
 import FormatSelector from '../FormatSelector';
 
 
@@ -16,7 +16,7 @@ const languageMap: Record<Format, string> = {
 };
 
 const ConverterShell: React.FC = () => {
-    const [inputContent, setInputContent] = useState<string>('{\n  "name": "DataMorph",\n  "version": 1,\n  "features": ["convert", "parse"]\n}');
+    const [inputContent, setInputContent] = useState<string>(initialText);
     const [inputFormat, setInputFormat] = useState<Format>('JSON');
     const [outputFormat, setOutputFormat] = useState<Format>('YAML');
 

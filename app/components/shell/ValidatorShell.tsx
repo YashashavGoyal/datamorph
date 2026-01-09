@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import CodeEditor from "../editor/CodeEditor";
-import { convertData, Format } from "../../lib/converters";
+import { convertData, Format, initialText } from "../../lib/converters";
 import FormatSelector from "../FormatSelector";
 import usePrevious from "@/app/lib/hooks/previous";
 
@@ -32,7 +32,7 @@ export default function Validator() {
     }
 
     const [inputFormat, setInputFormat] = useState<Format>('JSON');
-    const [inputContent, setInputContent] = useState('{\n  "name": "DataMorph",\n  "version": 1,\n  "features": ["convert", "parse"]\n}');
+    const [inputContent, setInputContent] = useState<string>(initialText);
 
     const [isValid, setIsValid] = useState<boolean | null>(null);
     const [validationError, setValidationError] = useState('');

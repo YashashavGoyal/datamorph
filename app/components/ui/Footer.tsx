@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -10,8 +11,14 @@ export default function Footer() {
                     {/* Brand Column */}
                     <div className="col-span-1 md:col-span-2 space-y-4">
                         <Link href="/" className="flex items-center gap-2 group w-fit">
-                            <div className="w-8 h-8 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-200">
-                                <span className="font-bold text-white text-lg">D</span>
+                            <div className="w-10 h-10 rounded-lg shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-200 relative">
+                                <Image
+                                    src="/logo-bg.png"
+                                    alt="DataMorph Logo"
+                                    fill
+                                    sizes="any"
+                                    className="object-contain rounded-lg"
+                                />
                             </div>
                             <span className="font-bold text-xl tracking-tight text-white group-hover:text-blue-200 transition-colors">
                                 DataMorph

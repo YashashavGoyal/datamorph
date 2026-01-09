@@ -3,6 +3,8 @@ import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import { parse as parseToml } from 'smol-toml';
 import { stringify as tomlStringify } from '@iarna/toml';
 
+export const initialText = '{\n  "name": "DataMorph",\n  "version": 2,\n  "features": ["convert", "parse"]\n}';
+
 export type Format = 'JSON' | 'YAML' | 'XML' | 'TOML';
 
 const xmlParser = new XMLParser({ ignoreAttributes: false });
