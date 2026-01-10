@@ -6,11 +6,13 @@ import { convertData, Format, initialText } from "../../lib/converters";
 import FormatSelector from "../FormatSelector";
 import usePrevious from "@/app/lib/hooks/previous";
 
+// Supported Formats
 const formats = ['JSON', 'YAML', 'XML', 'TOML'] as Format[];
 
-
+// Validator Component
 export default function Validator() {
 
+    // Language Map for Code Editor
     const languageMap: Record<Format, string> = {
         JSON: 'json',
         YAML: 'yaml',
@@ -18,6 +20,7 @@ export default function Validator() {
         TOML: 'ini',
     };
 
+    // Validator Function
     const validateData = (data: string, format: Format, shouldFormat = true) => {
         try {
             const formatted = convertData(data, format, format);
@@ -31,12 +34,14 @@ export default function Validator() {
         }
     }
 
+    // State Management
     const [inputFormat, setInputFormat] = useState<Format>('JSON');
     const [inputContent, setInputContent] = useState<string>(initialText);
 
     const [isValid, setIsValid] = useState<boolean | null>(null);
     const [validationError, setValidationError] = useState('');
 
+    // Validation Effect
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setIsValid(validateData(inputContent, inputFormat, false));
@@ -45,8 +50,8 @@ export default function Validator() {
         return () => clearTimeout(timeoutId);
     }, [inputContent, inputFormat]);
 
+    // Format Conversion Effect
     const prevFormat = usePrevious<Format>(inputFormat);
-
     useEffect(() => {
         if (!prevFormat) return;
 
@@ -64,6 +69,7 @@ export default function Validator() {
     return (
         <div className="flex flex-col h-[calc(100vh-8rem)] text-white font-sans gap-6 max-w-7xl mx-auto">
 
+            {/* Header Section */}
             <div className="flex flex-wrap gap-4 items-center justify-between bg-gray-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl shadow-xl">
                 <FormatSelector
                     value={inputFormat}
@@ -77,6 +83,7 @@ export default function Validator() {
 
             </div>
 
+            {/* Input Section */}
             <div className="flex flex-col md:flex-row flex-1 gap-4 min-h-0">
                 <div className="flex flex-col flex-1 gap-2 min-w-0 bg-gray-900/30 p-1 rounded-xl border border-white/5">
                     <div className="px-4 py-2 text-sm font-semibold text-gray-400 border-b border-white/5 bg-gray-900/50 rounded-t-lg">Input ({inputFormat})</div>
@@ -87,6 +94,7 @@ export default function Validator() {
                     />
                 </div>
 
+                {/* Error Indicator */}
                 {isValid === false && inputContent && (
                     <div className="absolute bottom-4 left-4 right-4 bg-red-500/10 border border-red-500/50 text-red-200 p-4 rounded-xl shadow-2xl z-10 backdrop-blur-xl">
                         <div className="flex items-center gap-3">
@@ -103,6 +111,7 @@ export default function Validator() {
                     </div>
                 )}
 
+                {/* Valid Data Indicator */}
                 {isValid && inputContent && (
                     <div className="absolute bottom-8 right-8 z-10 animate-bounce">
                         <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-full shadow-lg shadow-green-500/30 font-bold flex items-center gap-2">

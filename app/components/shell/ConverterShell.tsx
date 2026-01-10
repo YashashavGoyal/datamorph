@@ -5,9 +5,10 @@ import CodeEditor from '../editor/CodeEditor';
 import { convertData, Format, initialText } from '../../lib/converters';
 import FormatSelector from '../FormatSelector';
 
-
+// Supported Formats
 const formats = ['JSON', 'YAML', 'XML', 'TOML'] as Format[];
 
+// Language Map for Code Editor
 const languageMap: Record<Format, string> = {
     JSON: 'json',
     YAML: 'yaml',
@@ -15,7 +16,10 @@ const languageMap: Record<Format, string> = {
     TOML: 'ini',
 };
 
+// Converter Component
 const ConverterShell: React.FC = () => {
+
+    // State Management 
     const [inputContent, setInputContent] = useState<string>(initialText);
     const [inputFormat, setInputFormat] = useState<Format>('JSON');
     const [outputFormat, setOutputFormat] = useState<Format>('YAML');
@@ -23,6 +27,7 @@ const ConverterShell: React.FC = () => {
     const [outputContent, setOutputContent] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
+    // Conversion Effect
     useEffect(() => {
         const debouncer = setTimeout(() => {
             try {
@@ -75,6 +80,7 @@ const ConverterShell: React.FC = () => {
                         readOnly={true}
                     />
 
+                    {/* Error Indicator */}
                     {error && (
                         <div className="absolute bottom-4 left-4 right-4 bg-red-900/90 border border-red-700 text-red-100 p-3 rounded shadow-lg z-10 backdrop-blur-sm">
                             <div className="font-bold text-xs mb-1 uppercase tracking-wide">Syntax Error</div>

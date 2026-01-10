@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+// Custom Hook to get previous value
 export default function usePrevious<T>(value: T): T | null {
     const ref = useRef<T | null>(null);
 

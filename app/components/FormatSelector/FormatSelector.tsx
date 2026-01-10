@@ -1,5 +1,6 @@
 import { Format } from "../../lib/converters";
 
+// Format Selector Component
 export default function FormatSelector({
     value,
     onChange,

@@ -3,13 +3,16 @@ import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import { parse as parseToml } from 'smol-toml';
 import { stringify as tomlStringify } from '@iarna/toml';
 
+// Initial text to be display in Converter and Validator
 export const initialText = '{\n  "name": "DataMorph",\n  "version": 2,\n  "features": ["convert", "parse"]\n}';
 
+// Format Types that are supported
 export type Format = 'JSON' | 'YAML' | 'XML' | 'TOML';
 
 const xmlParser = new XMLParser({ ignoreAttributes: false });
 const xmlBuilder = new XMLBuilder({ ignoreAttributes: false, format: true });
 
+// Function to parse input text based on format
 export function parseInput(text: string, format: Format): unknown {
     if (!text.trim()) return null;
 
@@ -27,6 +30,7 @@ export function parseInput(text: string, format: Format): unknown {
     }
 }
 
+// Function to serialize output data based on format
 export function serializeOutput(data: unknown, format: Format): string {
     if (data === null || data === undefined) return '';
 
@@ -63,6 +67,7 @@ export function serializeOutput(data: unknown, format: Format): string {
     }
 }
 
+// Function to convert input data to output format
 export function convertData(text: string, inputFormat: Format, outputFormat: Format): string {
     try {
         const data = parseInput(text, inputFormat);

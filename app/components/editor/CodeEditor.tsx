@@ -3,6 +3,7 @@
 import React from 'react';
 import Editor, { OnChange } from '@monaco-editor/react';
 
+// Code Editor Props Interface
 interface CodeEditorProps {
     value: string;
     language: string;
@@ -10,6 +11,7 @@ interface CodeEditorProps {
     readOnly?: boolean;
 }
 
+// Code Editor Component - Main Component
 const CodeEditor: React.FC<CodeEditorProps> = ({
     value,
     language,
@@ -17,7 +19,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     readOnly = false
 }) => {
 
-
+    // Handle Editor Change
     const handleEditorChange: OnChange = (value) => {
         if (onChange) {
             onChange(value);

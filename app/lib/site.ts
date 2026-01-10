@@ -1,3 +1,5 @@
+// Function to get base URL
+
 export function getBaseUrl() {
     // To be used in production
     if (process.env.NEXT_PUBLIC_SITE_URL) {
