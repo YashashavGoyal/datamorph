@@ -1,0 +1,142 @@
+name: Datamorph CI/CD - Test Build Deploy
+
+# Event when to trigger
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+  # Manual Trigger for Testing
+  # Input will decide if we want to deploy or not
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Deploy to production?"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+jobs:
+
+  # Test the Code - Initialy eslint only
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run lint
+
+  # Build Docker Image with all necessary info and push it in docker hub
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    # export output
+    outputs:
+      sha_tag: ${{ steps.meta.outputs.version }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Login Credential
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: yashashavgoyal/datamorph
+
+          # Define tags 
+          # semver is for version tags - only when tag is pushed
+          # raw is for latest tag
+          # sha is for short sha tag - you can see it using git 
+          # git rev-parse --short HEAD
+          tags: |
+            type=sha,format=short
+            type=raw,value=latest
+            type=semver,pattern={{version}} 
+          labels: |
+            org.opencontainers.image.authors=Yashashav Goyal
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
+
+  # Deploy on AWS EC2 - ubuntu machine
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    # Here I want Continous Delivery - that means manual approval is required
+    # So In environment's protection rules, I will add a rule that manual approval is required
+    environment:
+      name: production
+
+    # This is to run this job only when push or workflow_dispatch and deploy is true
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.deploy == 'true')
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          # Script to run on remote server
+          script: |
+            set -e
+
+            IMAGE_TAG=${{ needs.build.outputs.sha_tag }}
+
+            echo "Checking Docker..."
+            if ! command -v docker &> /dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker $USER
+            fi
+
+            echo "Pulling image: $IMAGE_TAG"
+            sudo docker pull yashashavgoyal/datamorph:$IMAGE_TAG
+
+            echo "Stopping old container..."
+            sudo docker stop app || true
+            sudo docker rm app || true
+
+            echo "Running new container..."
+            sudo docker run -d \
+              --name app \
+              -p 80:3000 \
+              yashashavgoyal/datamorph:$IMAGE_TAG
