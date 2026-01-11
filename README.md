@@ -10,6 +10,12 @@
 ![GitHub stars](https://img.shields.io/github/stars/YashashavGoyal/datamorph?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/YashashavGoyal/datamorph?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues/YashashavGoyal/datamorph?style=for-the-badge)
+![Docker Pulls](https://img.shields.io/docker/pulls/yashashavgoyal/datamorph?style=for-the-badge&logo=docker&logoColor=white)
+
+<div align="center">
+  <img src="screenshots/datamorph-home.png" alt="DataMorph Deployed on AWS EC2" width="100%" />
+  <p><em>Deployed on AWS EC2</em></p>
+</div>
 
 DataMorph is a privacy-focused developer tool for converting and validating data formats like JSON, YAML, XML, and TOML. It runs entirely in your browser, so your data never leaves your device.
 
@@ -49,8 +55,10 @@ flowchart TD
 ## Features
 
 - **Real-Time Conversion**: Instantly convert between formats as you type.
+  <img src="screenshots/datamorph-converter.png" alt="Real-time Conversion" width="800" />
 - **Privacy First**: 100% client-side processing. Zero data opacity.
 - **Validation**: Instant syntax checking for JSON, YAML, XML, and TOML.
+  <img src="screenshots/datamorph-validator.png" alt="Validator" width="800" />
 - **Modern UI**: Dark mode, glassmorphism, and responsive design.
 
 ## Future Scope
@@ -61,27 +69,52 @@ flowchart TD
 - **PWA Support**: Install as a Progressive Web App for offline use.
 - **Theme Toggle**: Light/Dark mode switcher.
 
-## ♾️ DevOps Integration Roadmap
+## 🚀 DevOps & Deployment
 
-To professionalize the deployment pipeline, the following DevOps practices can be integrated:
+We have professionalized the deployment pipeline using **GitHub Actions** and **Docker**, ensuring a robust CI/CD process.
 
-1.  **CI/CD Pipeline (GitHub Actions)**:
-    -   Automate linting (`npm run lint`) and type checking on every Pull Request.
-    -   Automatically deploy to Vercel Preview environments.
+### 🔄 CI/CD Pipeline (GitHub Actions)
 
-2.  **Containerization (Docker)**:
-    -   Create a `Dockerfile` for self-hosted deployments.
-    -   Use multi-stage builds to keep the image size small.
+Our pipeline fully automates the testing, building, and deployment process:
 
-3.  **Testing Strategy**:
-    -   **Unit Tests**: Use **Jest** or **Vitest** to test the `lib/converters.ts` logic.
-    -   **E2E Tests**: Use **Playwright** to verify the user flow (typing in editor -> seeing output).
+1.  **Test**: Runs `npm run lint` to ensure code quality.
+2.  **Build**: Creates a optimized Docker image using a multi-stage build.
+3.  **Deploy**: Automatically deploys the new container to our **AWS EC2** instance upon any push to main or any tag push (vx.y.z) with a manual approval.
 
-4.  **Monitoring**:
-    -   Integrate **Sentry** for frontend error tracking.
-    -   Use **Vercel Analytics** for performance metrics.
+![GitHub Actions Workflow](screenshots/workflow.png)
 
-## 💻 Getting Started
+### 🐳 Docker Containerization
+
+We use a **Multi-Stage Docker Build** to ensure our production images are:
+-   **Lightweight**: Only essential artifacts are copied to the final image (based on `node:20-alpine`).
+-   **Secure**: The app runs as a non-root user (`nextjs`).
+-   **Efficient**: Dependencies are cached effectively.
+
+**Official Docker Image**: [yashashavgoyal/datamorph](https://hub.docker.com/r/yashashavgoyal/datamorph)
+
+<div align="center">
+  <img src="screenshots/docker-hub.png" alt="Docker Hub Repository" width="800" />
+</div>
+
+#### Verification
+
+You can verify the running container on our AWS EC2 instance:
+![AWS EC2 Docker Process](screenshots/aws-ec2-ubuntu.png)
+
+### 📈 Monitoring & Future Roadmap
+
+- [x] **CI/CD Pipeline**: GitHub Actions for automated linting and deployment.
+- [x] **Containerization**: Dockerfile with multi-stage builds.
+- [ ] **Unit Tests**: Integrate Jest/Vitest.
+- [ ] **E2E Tests**: Integrate Playwright.
+- [ ] **Monitoring**: Integrate Sentry and Vercel Analytics.
+
+### Prerequisites
+
+-   Use a modern package manager like `npm`, `yarn`, or `pnpm`.
+-   **Node.js**: v18 or higher is recommended.
+
+### Installation & Run
 
 1.  **Clone the repository**:
     ```bash
@@ -92,15 +125,35 @@ To professionalize the deployment pipeline, the following DevOps practices can b
 2.  **Install dependencies**:
     ```bash
     npm ci
+    # or
+    npm install
     ```
 
-3.  **Run the development server**:
+### Development
+
+Run the development server to see changes in real-time:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Production
+
+To build the application for production usage:
+
+1.  **Build the application**:
     ```bash
-    npm run dev
+    npm run build
     ```
 
-4.  **Open locally**:
-    Visit [http://localhost:3000](http://localhost:3000) in your browser.
+2.  **Start the production server**:
+    ```bash
+    npm start
+    ```
+
+The application is now optimized and ready for deployment.
 
 ## 📂 Modular Code Structure
 ```bash
